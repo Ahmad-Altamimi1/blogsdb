@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
@@ -13,7 +15,9 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('main_page/assets/img/favicon.png') }}">
     <link rel="icon" href="{{ asset('main_page/assets/img/favicon.png') }}" type="image/x-icon">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -206,7 +210,27 @@
                                 </ul>
                             </li>
                         @endif
-
+                        @if (Auth::user()->admin || Auth::user()->B2)
+                            <l i class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" data-toggle="collapse"
+                                    data-target="#appp_drp">
+                                    <i class="ion ion-ios-apps"></i>
+                                    <span class="nav-link-text">إدارة المحتوى</span>
+                                </a>
+                                <ul id="appp_drp" class="nav flex-column collapse collapse-level-1">
+                                    <li class="nav-item">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/programs"></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/contenmangment">إدارة المحتوى</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                </li>
+                        @endif
                         @if (Auth::user()->admin == '1')
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{ url('/userscontrol') }}">
@@ -278,7 +302,44 @@
 
     <!-- jQuery -->
     <script src="{{ asset('control/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <script>
+        $(document).on('click', '.delete-btn', function(e) {
+            e.preventDefault();
 
+            var button = $(this);
+            var liElement = button.closest('li');
+            var dataId = button.data('id');
+            var name = button.text();
+            console.log('button', button[0]);
+            console.log(' deleteButton.text()', button.text());
+            var sectionId = button.data('sectionid');
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            newoption(name, dataId)
+            var requestDataToDelete = {
+                id: dataId,
+                sectionId: sectionId,
+                _token: csrfToken,
+            };
+            console.log('requestDataToDelete', requestDataToDelete);
+
+            // Make AJAX request
+            $.ajax({
+                type: 'PATCH',
+                url: '/managcontentdelete',
+                data: requestDataToDelete,
+                success: function(response) {
+                    console.log(response);
+                    console.log('deleted successfully');
+
+                    // Perform additional actions if needed, such as removing the list item
+                    liElement.remove();
+                },
+                error: function(error) {
+                    console.error(error);
+                },
+            });
+        });
+    </script>
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ asset('control/vendors/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('control/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>

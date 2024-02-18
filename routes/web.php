@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Post;
 use App\Models\Videos;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ContentMangement;
 use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,10 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Route::patch('/contenmangment', [ContentMangement::class, 'update'])->name('contenmangment.update');;
+Route::get('contenmangment',[ ContentMangement::class,'index']);
+Route::patch('contenmangment/store/{id}',[ ContentMangement::class,'update'])->name('contenmangment.update');
+Route::patch('managcontentdelete',[ ContentMangement::class,'destroy'])->name('contenmangment.destroy');
 
 Route::get('/fetch-content', [HomeController::class, 'fetchContent']);
 Route::get('/fetch-video', [HomeController::class, 'fetchvideo']);

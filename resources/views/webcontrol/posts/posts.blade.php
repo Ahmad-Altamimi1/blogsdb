@@ -10,20 +10,7 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
-        {{-- <div class="row pt-5">
-            <div class="col-sm">
-                <form action="{{ route('search-posts') }}" method="GET">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-light" type="submit">بحث</button>
-                            </div>
-                            <input style="text-align: right;" type="text" name="q" class="form-control" placeholder="البحث في جميع الموقع" aria-label="" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div> --}}
+
 
         <div class="row">
             <div class="col-sm">
@@ -52,7 +39,7 @@
                                     <td>{{ $post->REED }}</td>
                                     <td>
                                         @foreach($post->group->tags as $tag)
-                                        
+
                                         @if($tag->parentId === null)
                                             <li dir="rtl">
                                                 {{ $tag->TITLE }}
@@ -63,7 +50,7 @@
                                                     @endif
                                             </li>
                                         @endif
-                                    @endforeach 
+                                    @endforeach
                                     </td>
                                     <td><a class="btn btn-primary" type="button"
                                             href="/posts/{{ $post->id }}/edit">تعديل</a></td>

@@ -20,6 +20,7 @@ class CreateTagsTable extends Migration
             $table->timestamp('DATE')->useCurrent();
             $table->timestamp('Update_DATE')->nullable()->useCurrentOnUpdate();
             $table->unsignedBigInteger('WRITER');
+            $table->string('order')->default(0);
             $table->unsignedBigInteger('EDITOR');
             $table->unsignedBigInteger('parentId')->nullable();
             // $table->unsignedBigInteger('groupId')->nullable();
@@ -27,13 +28,13 @@ class CreateTagsTable extends Migration
             $table->string('COLOR')->nullable();
             $table->longText('TEXT')->nullable();
             $table->unsignedBigInteger('REED');
-            $table->string('FACEBOOK')->nullable(); 
+            $table->string('FACEBOOK')->nullable();
             $table->string('YOUTUBE')->nullable();
             $table->string('TWITTER')->nullable();
             $table->string('INSTAGRAM')->nullable();
             $table->foreign('parentId')->references('id')->on('tags')->onDelete('cascade');
         });
-       
+
     }
 
     /**
